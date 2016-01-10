@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+     
+{% block title %}{{post.title}}{% endblock %}
+     
+{% block content %}
+    <article>
+        <header>
+            <h1> {{post.title}} </h1>  
+        </header>
+        <p style="font-size:120%;color:grey" class="description">{{post.description}}</p>{{post.content|safe}}
+        <div id="footer">
+            Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time>
+        </div>
+    </article>
+{% endblock %}

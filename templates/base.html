@@ -1,0 +1,23 @@
+{% load static from staticfiles %}
+<html>
+    <head>
+        <ul class="navigation">
+            <li><a class="active" href="home.asp">Home</a></li>
+            <li><a class="active" href="contact.asp">Contact</a></li>
+            <li><a class="active" href="about.asp">About</a></li>
+            <li><a class="active" href="#login">Login</a></li>
+            <form action="/search/" method="get">
+                <input type="text" name="q">
+                <input type="submit" value="Search">
+            </form> 
+        </ul>
+        <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div class="content">{% block content %}{% endblock %}</div>
+    </body>
+    <div id="footer2">
+        Copyright © Zeeshan
+    </div>
+</html>

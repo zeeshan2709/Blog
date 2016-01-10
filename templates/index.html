@@ -1,0 +1,17 @@
+{% extends 'base.html' %}  
+{% block title %} Blog Archive {% endblock %}
+     
+{% block content %}
+    <h1 style="color:Black; font-family:verdana;"> <center>Zeeshan's Blog Archive</center></h1>
+    {% for post in posts %}
+        <div class="post">
+            <h2 style="font-size:160%">
+                <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+            </h2>
+            <p  style="font-size:120%;color:grey">{{post.description}}</p>
+        </div>
+        <div id="footer">
+            Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time>
+        </div>
+    {% endfor %} 
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}  
+{% block title %} Blog Archive {% endblock %}
+{% block content %}
+	<h1 style="color:Black; font-family:verdana;"> Search Results:</center></h1>
+	{% if posts %}
+		<p>Results Found: {{posts|length}} Posts {{posts|pluralize}}. </p>
+		<ul>
+			{% for post in posts %}
+				<li><a href="{{post.get_absolute_url}}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posts matched your search criteria.</p>
+    {% endif %}
+{% endblock %}
