@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-     
 {% block title %}{{post.title}}{% endblock %}
      
 {% block content %}
     <article>
+    	<br><br><br><br>
         <header>
             <h1> {{post.title}} </h1>  
         </header>
@@ -12,4 +12,5 @@
             Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time>
         </div>
     </article>
+
 {% endblock %}

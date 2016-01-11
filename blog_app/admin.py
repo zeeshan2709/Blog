@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog_app.models import Post
+from blog_app.models import Post, Users
 
 class PostAdmin(admin.ModelAdmin):
 	list_display = ('title', 'description')
@@ -10,3 +10,4 @@ class PostAdmin(admin.ModelAdmin):
 	
 #admin.site.register(Post)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Users)

@@ -51,6 +51,10 @@ a:hover{
 .active {
     background-color: #4CAF50;
 }
+.active_r{
+    background-color: #4CAF50;
+    text-align: right;
+}
 #footer {
     color:grey;
     clear:both;
@@ -63,4 +67,17 @@ a:hover{
     clear:both;
     text-align:center;
     padding:5px;
+}
+.login{
+    color:black;
+    position:fixed;
+    text-align:center;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; 
+    margin-left: -15em;
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
 }

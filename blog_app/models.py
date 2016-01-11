@@ -17,6 +17,11 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		print self.slug
 		return reverse('blog_app.views.post', kwargs={'slug':self.slug,})
+
+class Users(models.Model):
+	username=models.CharField(max_length=100)
+	password=models.CharField(max_length=100)
+	email=models.EmailField(max_length=100)
      
 class Meta:
     ordering = ['-created']

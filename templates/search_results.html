@@ -1,9 +1,10 @@
 {% extends 'base.html' %}  
 {% block title %} Blog Archive {% endblock %}
 {% block content %}
+	<br> <br> <br> <br>
 	<h1 style="color:Black; font-family:verdana;"> Search Results:</center></h1>
 	{% if posts %}
-		<p>Results Found: {{posts|length}} Posts {{posts|pluralize}}. </p>
+		<p>Results Found: {{posts|length}} Post {{posts|pluralize}}. </p>
 		<ul>
 			{% for post in posts %}
 				<li><a href="{{post.get_absolute_url}}">{{ post.title }}</a></li>

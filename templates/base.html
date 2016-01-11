@@ -2,10 +2,16 @@
 <html>
     <head>
         <ul class="navigation">
-            <li><a class="active" href="home.asp">Home</a></li>
+            <li><a class="active" href="{% url "index" %}">Home</a></li>
             <li><a class="active" href="contact.asp">Contact</a></li>
-            <li><a class="active" href="about.asp">About</a></li>
-            <li><a class="active" href="#login">Login</a></li>
+            <li style = "float:right;"><a class="active" href="about.asp">About</a></li>
+            {%if reg or login %}
+                <li style = "float:right;"><a class="active" href="{% url "logpage" %}">Login</a></li>
+                <li style = "float:right;"><a class="active" href="{% url "regpage" %}">Register</a></li>
+            {% else %}
+                <li style = "float:right;"><a class="active" href="{% url "logout" %}">Logout</a></li>
+                <li style = "floar:right;color:white">Welcome {{username}}</li>
+            {% endif %}
             <form action="/search/" method="get">
                 <input type="text" name="q">
                 <input type="submit" value="Search">
