@@ -23,8 +23,8 @@ urlpatterns = [
     url(r'^$', 'blog_app.views.index', name="index"),
     url(r'^register/$', 'blog_app.views.register'),
     url(r'^login_page/$', 'blog_app.views.login_page', name='logpage'),
-    url(r'^login/$', 'blog_app.views.login'),   
-    url(r'^logout/$', 'blog_app.views.logout', name='logout'),
+    url(r'^logins/$', 'blog_app.views.logins'),   
+    url(r'^logouts/$', 'blog_app.views.logouts', name='logouts'),
     url(r'^register_page/$', 'blog_app.views.register_page', name='regpage'),
     url(r'^(?P<slug>[\w\-]+)/$', 'blog_app.views.post'),
 ]

@@ -5,12 +5,12 @@
             <li><a class="active" href="{% url "index" %}">Home</a></li>
             <li><a class="active" href="contact.asp">Contact</a></li>
             <li style = "float:right;"><a class="active" href="about.asp">About</a></li>
-            {%if reg or login %}
+            <li style = "floar:right;color:white">Welcome {{username}}</li>
+            {%if notloggedin %}
                 <li style = "float:right;"><a class="active" href="{% url "logpage" %}">Login</a></li>
                 <li style = "float:right;"><a class="active" href="{% url "regpage" %}">Register</a></li>
             {% else %}
-                <li style = "float:right;"><a class="active" href="{% url "logout" %}">Logout</a></li>
-                <li style = "floar:right;color:white">Welcome {{username}}</li>
+                <li style = "float:right;"><a class="active" href="{% url "logouts" %}">Logout</a></li>
             {% endif %}
             <form action="/search/" method="get">
                 <input type="text" name="q">

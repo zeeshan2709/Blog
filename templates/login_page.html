@@ -2,10 +2,20 @@
 {% block title %} Blog Archive {% endblock %}
 {% block content %} 
 	<div class="login">
-	<form action="/login/" method="get">
+	<form name="logform" action="/logins/" onsubmit="return validate()" method="get">
         <p>Username:     <input type="text" name="user"><p><br>
         <p>Password:     <input type="password" name="pass"><p><br>
         <p><center><input type="submit" value="Submit"><center><p>
     </form>
+    <script>
+		function validate(){
+			var x = document.forms["logform"]["user"].value;
+			var y = document.forms["logform"]["pass"].value;
+			if(x == "" || y == "" || x == null || y == null){
+				alert("Enter user and password");
+				return false;
+			}
+		}
+	</script>
     </div>
 {% endblock %}

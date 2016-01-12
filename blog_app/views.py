@@ -1,56 +1,65 @@
 from django.shortcuts import render,get_object_or_404
 from blog_app.models import Post,Users
 from . import models
-
-reg = 1
-logged = 1
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
+user_n=""
 
 def index(request):
 	posts = Post.objects.all()
-	return render(request, 'index.html', {'posts': posts, 'reg':reg, 'login':logged})
+	print request.user
+	notloggedin = 1
+	if request.user.is_authenticated():
+		notloggedin = 0
+	else:
+		notloggedin = 1
+	return render(request, 'index.html', {'posts': posts, 'notloggedin':notloggedin, 'username': request.user})
 
 def post(request, slug):
 	#print slug
+	if request.user.is_authenticated():
+		notloggedin = 0
+	else:
+		notloggedin = 1
 	post = get_object_or_404(Post, slug=slug)
-	return render(request, 'post.html', {'post':post})
+	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin})
 
 def search(request):
 
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
 		posts = Post.objects.filter(title__icontains=q)
-		return render(request, 'search_results.html', {'posts': posts, 'query':q})
+		return render(request, 'search_results.html', {'posts': posts, 'query':q, 'username': request.user})
 	else:
 		return HttpResponse('Please submit a search term.')
 def register_page(request):
-	return render(request, 'register.html')
+	return render(request, 'register.html' , {'notloggedin':1})
 
 def register(request):
 	usr = request.GET.get('user')
 	pss = request.GET.get('pass')
 	eml = request.GET.get('email')
-	reg = 0
 	posts = Post.objects.all()
-	logged = 0
 	if(usr and pss and eml):
-		Users.objects.create(username=usr, password=pss, email=eml)
-		return render(request, 'index.html', {'username':usr, 'posts': posts, 'reg':reg, 'login':logged})
+		User.objects.create_user(usr, eml, pss)
+		return render(request, 'login_page.html')
 def login_page(request):
-	return render(request, 'login_page.html')
+	return render(request, 'login_page.html', {'notloggedin':1})
 
-def login(request):
+def logins(request):
 	usr = request.GET.get('user')
 	pss = request.GET.get('pass')
-	logged=0
-	reg=0
-	posts = Post.objects.all()
-	if usr and pss:
-		rec = Users.objects.get(username=usr)
-		if rec.password == pss:
-			return render(request, 'index.html', {'username':usr, 'posts': posts, 'reg':reg, 'login':logged})
-
-def logout(request):
-	logged=1
-	reg=1
-	posts = Post.objects.all()
-	return render(request, 'index.html', {'posts': posts, 'reg':reg, 'login':logged})
+	print usr, pss
+	user = authenticate(username=usr,password=pss)
+	if user is not None:
+		if user.is_active:
+			user_n=usr
+			login(request, user)
+			return index(request)
+		else:
+			print("password valid but account inactive")
+	else:
+		print("username and password incorrect")
+def logouts(request):
+	logout(request)
+	return index(request)
