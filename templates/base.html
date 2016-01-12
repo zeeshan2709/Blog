@@ -12,10 +12,10 @@
             {% else %}
                 <li style = "float:right;"><a class="active" href="{% url "logouts" %}">Logout</a></li>
             {% endif %}
-            <form action="/search/" method="get">
+            <li style = "float:right;"><form action="/search/" method="get">
                 <input type="text" name="q">
                 <input type="submit" value="Search">
-            </form> 
+            </form></li> 
         </ul>
         <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
         <title>{% block title %}{% endblock %}</title>
