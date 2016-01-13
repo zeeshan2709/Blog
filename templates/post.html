@@ -2,15 +2,24 @@
 {% block title %}{{post.title}}{% endblock %}
      
 {% block content %}
-    <article>
+    
     	<br><br><br><br>
-        <header>
-            <h1> {{post.title}} </h1>  
-        </header>
-        <p style="font-size:120%;color:grey" class="description">{{post.description}}</p>{{post.content|safe}}
-        <div id="footer">
-            Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time>
+        <div class = pos_div>
+            <header>
+                <h1> {{post.title}} </h1>  
+            </header>
+            <p style="font-size:120%;color:grey" class="description">{{post.description}}</p>{{post.content|safe}}
+            <br><br><br>
+            <input onclick="change()" type="button" value="Like" id="likebutton"></input>
+             <div id="footer">Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time></div>
+        <script>
+            function change(){
+                var elem = document.getElementById("likebutton");
+                if (elem.value=="Like") elem.value = "Unlike";
+                else elem.value = "Like";
+            }
+        </script>
         </div>
-    </article>
+    
 
 {% endblock %}

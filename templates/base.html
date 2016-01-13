@@ -11,12 +11,14 @@
                 <li style = "float:right;"><a class="active" href="{% url "regpage" %}">Register</a></li>
             {% else %}
                 <li style = "float:right;"><a class="active" href="{% url "logouts" %}">Logout</a></li>
+                <li style = "float:right;"><a class="active" href="{% url "acc_page" %}">My Account</a></li>
             {% endif %}
             <li style = "float:right;"><form action="/search/" method="get">
                 <input type="text" name="q">
                 <input type="submit" value="Search">
             </form></li> 
         </ul>
+
         <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
         <title>{% block title %}{% endblock %}</title>
     </head>

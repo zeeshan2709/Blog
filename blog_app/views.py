@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from blog_app.models import Post,Users
+from blog_app.models import Post
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -57,7 +57,6 @@ def logins(request):
 	user = authenticate(username=usr,password=pss)
 	if user is not None:
 		if user.is_active:
-			user_n=usr
 			notloggedin = 0
 			login(request, user)
 			return index(request)
@@ -69,3 +68,26 @@ def logouts(request):
 	logout(request)
 	notloggedin = 1
 	return index(request)
+
+def my_account_page(request):
+	if request.user.is_authenticated():
+		notloggedin = 0
+	else:
+		notloggedin = 1
+	uname = request.user.username
+	fname = request.user.first_name
+	lname = request.user.last_name
+	email = request.user.email
+	return render(request, 'my_account.html', {'notloggedin':notloggedin, 'lname':lname,'email':email, 'fname':fname, 'uname':uname, 'notloggedin':notloggedin, 'username': request.user })
+
+def change_info(request):
+	uname = request.GET.get('uname')
+	fname = request.GET.get('fname')
+	lname = request.GET.get('lname')
+	email = request.GET.get('email')
+	request.user.username = uname
+	request.user.first_name = fname
+	request.user.last_name = lname
+	request.user.email = email
+	return index(request)
+

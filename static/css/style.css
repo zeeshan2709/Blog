@@ -16,7 +16,8 @@ div.post{
         margin: auto;
 }
 div.content {
-    height: 640px;
+    min-height: 760px;
+    height: auto;
 }
 ul.navigation{
     list-syle-type: none;
@@ -72,6 +73,35 @@ a:hover{
     color:black;
     position:fixed;
     text-align:center;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; 
+    margin-left: -15em;
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
+}
+.pos_div{
+    border: 1px;
+        background-color: #fff;
+        max-width: 640px;
+        width: 96%;
+        padding: 2%;
+        margin: auto;
+}
+.my_acc_form input:not([type=submit])
+{
+    padding: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
+}
+div.my_acc_form{
+    color:black;
+    position:fixed;
     top: 50%;
     left: 50%;
     width:30em;

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %} 
+<br><br><br><br>
+<div style="border-radius:10px;"class = "my_acc_form">
+	<form style="margin-left:100px; "action="/change_info/" method="get">
+  		First name&nbsp;:&nbsp;&nbsp;<input type="text" name="fname" value={{fname}}><br>
+  		Last name :&nbsp;&nbsp;<input type="text" name="lname" value={{lname}}><br>
+  		Email     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="email" name="email" value={{email}}><br>
+  		Username  &nbsp;:&nbsp;&nbsp;<input type="text" name="uname" value={{username}}><br>
+  		password  &nbsp;&nbsp;:&nbsp;&nbsp;<input type="password" name="pass" value={{password}}><br>
+  		<button style = "margin-top:30px; margin-left:50px;"type="submit" value="Submit">Submit</button>
+  		<button type="submit" value="Cancel">Cancel</button>
+	</form>
+</div>
+{% endblock %}
