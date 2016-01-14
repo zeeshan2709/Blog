@@ -19,19 +19,22 @@ def index(request):
 
 def post(request, slug):
 	#print slug
+	post = get_object_or_404(Post, slug=slug)
 	if request.user.is_authenticated():
 		notloggedin = 0
 	else:
 		notloggedin = 1
-	post = get_object_or_404(Post, slug=slug)
-	lk = Likes.objects.filter(posts=post, usr=request.user)
-	if not lk:
-		state = 'Like'
+	if notloggedin == 0:
+		lk = Likes.objects.filter(posts=post, usr=request.user)
+		if not lk:
+			state = 'Like'
+		else:
+			state = 'Unlike'
 	else:
-		state = 'Unlike'
+		state = 'Like'
 	global cur_post
 	cur_post=post
-	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin, 'like':state})
+	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin, 'like':state, 'no_likes':post.no_likes})
 
 def search(request):
 
@@ -88,37 +91,43 @@ def my_account_page(request):
 	fname = request.user.first_name
 	lname = request.user.last_name
 	email = request.user.email
-	request.user.save()
-	return render(request, 'my_account.html', {'notloggedin':notloggedin, 'lname':lname,'email':email, 'fname':fname, 'uname':uname, 'notloggedin':notloggedin, 'username': request.user })
+	phno =  request.user.details.ph_no
+	return render(request, 'my_account.html', {'ph_no':phno, 'notloggedin':notloggedin, 'lname':lname,'email':email, 'fname':fname, 'uname':uname, 'notloggedin':notloggedin, 'username': request.user })
 
 def change_info(request):
 	uname = request.GET.get('uname')
 	fname = request.GET.get('fname')
 	lname = request.GET.get('lname')
 	email = request.GET.get('email')
+	phno = request.GET.get('ph_no')
 	request.user.username = uname
 	request.user.first_name = fname
 	request.user.last_name = lname
 	request.user.email = email
+	request.user.details.ph_no = phno
+	request.user.save()
 	return index(request)
 
 def liked(request):
-	cur_post
- 	lk = Likes.objects.filter(posts=cur_post, usr=request.user)
- 	no = cur_post.no_likes;
- 	no += 1
- 	print cur_post.slug, no, lk
- 	post1 = Post.objects.get(slug=cur_post.slug)
- 	print post1
- 	if not lk:
- 		Likes.objects.create(posts=post1, usr=request.user)
- 		print "in if"
- 		post1.no_likes = no
- 		post1.save()
+	if notloggedin == 0:
+		cur_post
+ 		lk = Likes.objects.filter(posts=cur_post, usr=request.user)
+ 		no = cur_post.no_likes;
+ 		no += 1
+ 		print cur_post.slug, no, lk
+ 		post1 = Post.objects.get(slug=cur_post.slug)
+ 		print post1
+ 		if not lk:
+ 			Likes.objects.create(posts=post1, usr=request.user)
+ 			print "in if"
+ 			post1.no_likes = no
+ 			post1.save()
+ 		else:
+ 			unlike(request)
+ 		print lk
+ 		return post(request, cur_post.slug)
  	else:
- 		unlike(request)
- 	print lk
- 	return post(request, cur_post.slug)
+ 		return login_page(request)
 
 def unlike(request):
 	lk = Likes.objects.filter(posts=cur_post, usr=request.user)

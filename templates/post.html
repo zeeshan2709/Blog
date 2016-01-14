@@ -11,6 +11,7 @@
             <p style="font-size:120%;color:grey" class="description">{{post.description}}</p>{{post.content|safe}}
             <br><br><br>
             <button onclick="change()" type="button" value="Like" id="likebutton"><a href="{% url "liked" %}">{{like}}</a></button>
+            &nbsp;&nbsp;+{{no_likes}}
              <div id="footer">Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time></div>
         </div>
     
