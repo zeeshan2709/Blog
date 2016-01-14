@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^logouts/$', 'blog_app.views.logouts', name='logouts'),
     url(r'^myaccount/$', 'blog_app.views.my_account_page', name='acc_page'),
     url(r'^change_info/$', 'blog_app.views.change_info'),
+    url(r'^liked/$', 'blog_app.views.liked', name='liked'),
     url(r'^register_page/$', 'blog_app.views.register_page', name='regpage'),
     url(r'^(?P<slug>[\w\-]+)/$', 'blog_app.views.post'),
 ]

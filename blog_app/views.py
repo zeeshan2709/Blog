@@ -1,10 +1,12 @@
 from django.shortcuts import render,get_object_or_404
-from blog_app.models import Post
+from blog_app.models import Post,Likes
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
-user_n=""
+
 notloggedin = 1
+cur_post=[]
+
 def index(request):
 	posts = Post.objects.all()
 	print request.user
@@ -22,7 +24,14 @@ def post(request, slug):
 	else:
 		notloggedin = 1
 	post = get_object_or_404(Post, slug=slug)
-	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin})
+	lk = Likes.objects.filter(posts=post, usr=request.user)
+	if not lk:
+		state = 'Like'
+	else:
+		state = 'Unlike'
+	global cur_post
+	cur_post=post
+	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin, 'like':state})
 
 def search(request):
 
@@ -54,6 +63,7 @@ def logins(request):
 	usr = request.GET.get('user')
 	pss = request.GET.get('pass')
 	print usr, pss
+	global notloggedin
 	user = authenticate(username=usr,password=pss)
 	if user is not None:
 		if user.is_active:
@@ -78,6 +88,7 @@ def my_account_page(request):
 	fname = request.user.first_name
 	lname = request.user.last_name
 	email = request.user.email
+	request.user.save()
 	return render(request, 'my_account.html', {'notloggedin':notloggedin, 'lname':lname,'email':email, 'fname':fname, 'uname':uname, 'notloggedin':notloggedin, 'username': request.user })
 
 def change_info(request):
@@ -91,3 +102,28 @@ def change_info(request):
 	request.user.email = email
 	return index(request)
 
+def liked(request):
+	cur_post
+ 	lk = Likes.objects.filter(posts=cur_post, usr=request.user)
+ 	no = cur_post.no_likes;
+ 	no += 1
+ 	print cur_post.slug, no, lk
+ 	post1 = Post.objects.get(slug=cur_post.slug)
+ 	print post1
+ 	if not lk:
+ 		Likes.objects.create(posts=post1, usr=request.user)
+ 		print "in if"
+ 		post1.no_likes = no
+ 		post1.save()
+ 	else:
+ 		unlike(request)
+ 	print lk
+ 	return post(request, cur_post.slug)
+
+def unlike(request):
+	lk = Likes.objects.filter(posts=cur_post, usr=request.user)
+	lk.delete()
+	no = cur_post.no_likes - 1
+	cur_post.no_likes = no
+	cur_post.save()
+	return post(request, cur_post.slug)
