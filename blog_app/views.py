@@ -3,6 +3,7 @@ from blog_app.models import Post,Likes
 from . import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.utils.text import slugify
 
 notloggedin = 1
 cur_post=[]
@@ -145,5 +146,6 @@ def send_request(request):
 	titl = request.GET.get('title')
 	cont = request.GET.get('content')
 	desc = request.GET.get('descrip')
-	Post.objects.create(title=titl, content=cont, description=desc)
+	slg =  slugify(titl)
+	Post.objects.create(title=titl, content=cont, description=desc, slug=slg)
 	return index(request)
