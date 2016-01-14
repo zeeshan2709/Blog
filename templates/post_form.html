@@ -2,15 +2,20 @@
 {% block content %} 
 <br><br><br><br>
 <div style="border-radius:10px;"class = "post_form">
-	<form style="margin-left:100px;" class="postfield" action="/send_request/" onsubmit="return validate()" method="get">
-  		Title&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="titlef" type="text" name="title"><br>
-  		Description:<input class="titlef" type="text" name="descrip"><br>
-  		<label>Content </label> :&nbsp;&nbsp;&nbsp;&nbsp;<textarea class="contentf" type="text" name="content"></textarea><br>
-  		<button style = "margin-top:30px; margin-left:500px; width:20em; height:2em;" type="submit" value="Submit">Request</button>
+	<form style="margin-left:100px;" class="postfield" action="/send_request/" method="get">
+  		<b>Title</b>&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="titlef" type="text" name="title"><br>
+  		<b>Description:</b><input style="margin-bottom:10px;margin-top:10px"class="titlef" type="text" name="descrip"><br>
+  		<label><b>Content:</b> </label> &nbsp;&nbsp;&nbsp;&nbsp;<textarea class="contentf" type="text" name="content"></textarea><br>
+  		<button style = "margin-top:30px; margin-left:500px; width:20em; height:2em;" onclick="return validate()" type="submit" value="Submit"><b>Request</b></button>
+  		<script>
+			function validate(){
+				return confirm("Are you sure u want to submit it");
+			}
+		</script>
 	</form>
 	<script>
 		function validate(){
-				alert("Confirm Request");
+				return confirm("Are you sure u want to submit it");
 			}
 		}
 	</script>
