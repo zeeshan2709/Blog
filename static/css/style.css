@@ -111,3 +111,19 @@ div.my_acc_form{
     border: 1px solid #ccc;
     background-color: #f3f3f3;
 }
+.contentf
+{
+    min-height:500px;
+    min-width :1000px;
+}
+.contentf[placeholder] {
+    line-height: 10px;
+    font-size: 44px;
+}
+.titlef
+{
+    width:1000px;
+}
+.postfield *{
+    vertical-align: middle;
+}

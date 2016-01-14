@@ -8,9 +8,9 @@ notloggedin = 1
 cur_post=[]
 
 def index(request):
-	posts = Post.objects.all()
+	posts = Post.objects.filter(published=True)
 	print request.user
-	notloggedin = 1
+	global notloggedin
 	if request.user.is_authenticated():
 		notloggedin = 0
 	else:
@@ -79,6 +79,7 @@ def logins(request):
 		print("username and password incorrect")
 def logouts(request):
 	logout(request)
+	global notloggedin
 	notloggedin = 1
 	return index(request)
 
@@ -136,3 +137,13 @@ def unlike(request):
 	cur_post.no_likes = no
 	cur_post.save()
 	return post(request, cur_post.slug)
+
+def post_form(request):
+	return render(request, 'post_form.html', {'username': request.user, 'notloggedin':notloggedin})
+
+def send_request(request):
+	titl = request.GET.get('title')
+	cont = request.GET.get('content')
+	desc = request.GET.get('descrip')
+	Post.objects.create(title=titl, content=cont, description=desc)
+	return index(request)

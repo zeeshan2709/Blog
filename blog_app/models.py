@@ -10,7 +10,7 @@ class Post(models.Model):
 	description = models.CharField(max_length=255)
 	content = models.TextField()
 	no_likes = models.IntegerField(default=0)
-	published = models.BooleanField(default=True)
+	published = models.BooleanField(default=False)
 	created = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):

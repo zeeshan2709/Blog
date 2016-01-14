@@ -10,6 +10,7 @@
                 <li style = "float:right;"><a class="active" href="{% url "logpage" %}">Login</a></li>
                 <li style = "float:right;"><a class="active" href="{% url "regpage" %}">Register</a></li>
             {% else %}
+                <li style = "float:right;"><a class="active" href="{% url "post_form" %}">Post Request</a></li>
                 <li style = "float:right;"><a class="active" href="{% url "logouts" %}">Logout</a></li>
                 <li style = "float:right;"><a class="active" href="{% url "acc_page" %}">My Account</a></li>
             {% endif %}

@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^myaccount/$', 'blog_app.views.my_account_page', name='acc_page'),
     url(r'^change_info/$', 'blog_app.views.change_info'),
     url(r'^liked/$', 'blog_app.views.liked', name='liked'),
+    url(r'^post_form/$', 'blog_app.views.post_form', name='post_form'),
+    url(r'^send_request/$', 'blog_app.views.send_request'),
     url(r'^register_page/$', 'blog_app.views.register_page', name='regpage'),
     url(r'^(?P<slug>[\w\-]+)/$', 'blog_app.views.post'),
 ]
