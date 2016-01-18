@@ -1,6 +1,10 @@
-from django.shortcuts import render,get_object_or_404
-from blog_app.models import Post,Likes
+from django.shortcuts import render,get_object_or_404, HttpResponse
+from blog_app.models import Post,Likes,details
 from . import models
+try:
+	from django.utils import simplejason as json
+except ImportError:
+	import json
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
@@ -111,33 +115,26 @@ def change_info(request):
 	return index(request)
 
 def liked(request):
-	if notloggedin == 0:
-		cur_post
+	print "inlikes"
+	if request.user.is_authenticated():
  		lk = Likes.objects.filter(posts=cur_post, usr=request.user)
- 		no = cur_post.no_likes;
- 		no += 1
- 		print cur_post.slug, no, lk
- 		post1 = Post.objects.get(slug=cur_post.slug)
- 		print post1
+ 		#post1 = Post.objects.get(slug=cur_post.slug)
  		if not lk:
- 			Likes.objects.create(posts=post1, usr=request.user)
- 			print "in if"
- 			post1.no_likes = no
- 			post1.save()
+ 			print "not liked"
+ 			Likes.objects.create(posts=cur_post, usr=request.user)
+ 			no = cur_post.no_likes + 1;
+ 			cur_post.no_likes = no
+ 			cur_post.save()
+ 			print "saved liked"
  		else:
- 			unlike(request)
- 		print lk
- 		return post(request, cur_post.slug)
+ 			lk.delete()
+ 			no = cur_post.no_likes - 1
+ 			cur_post.no_likes = no
+ 			cur_post.save()
+ 		ctx = {"likes": no, "message":"changed"}
+ 		return HttpResponse(json.dumps(ctx), content_type="application/json")
  	else:
  		return login_page(request)
-
-def unlike(request):
-	lk = Likes.objects.filter(posts=cur_post, usr=request.user)
-	lk.delete()
-	no = cur_post.no_likes - 1
-	cur_post.no_likes = no
-	cur_post.save()
-	return post(request, cur_post.slug)
 
 def post_form(request):
 	return render(request, 'post_form.html', {'username': request.user, 'notloggedin':notloggedin})

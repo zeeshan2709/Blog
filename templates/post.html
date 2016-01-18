@@ -4,16 +4,42 @@
 {% block content %}
     
     	<br><br><br><br>
-        <div class = pos_div>
+    <div class = pos_div>
             <header>
                 <h1> {{post.title}} </h1>  
             </header>
             <p style="font-size:120%;color:grey" class="description">{{post.description}}</p>{{post.content|safe}}
             <br><br><br>
-            <button onclick="change()" type="button" value="Like" id="likebutton"><a href="{% url "liked" %}">{{like}}</a></button>
-            &nbsp;&nbsp;+{{no_likes}}
+            <!-- <button onclick="change()" type="button" value="Like" id="likebutton"><a href="{% url "liked" %}">{{like}}</a></button>
+            &nbsp;&nbsp;+{{no_likes}} -->
+            <input type="button" id="liking" value={{like}} ></input><p id = "number">&nbsp;&nbsp;{{no_likes}} </p>
              <div id="footer">Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time></div>
-        </div>
+            <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+         <script>
+            $('#liking').on("click", function(){
+                $.ajax({
+                    type: "POST",
+                    url: "{% url "liked" %}",
+                    data: {'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    dataType: "json",
+                    success: function(response) {
+                        k = document.getElementById("liking")
+                        if(k.value == "Like") {
+                            k.value = "Unlike";
+                        }
+                        else {
+                            k.value = "Like" ;
+                        }
+                        document.getElementById("number").innerHTML = response.likes;
+                    },
+                    error: function(rs, e) {
+                        alert(rs.responseText);
+                    }
+                }); 
+            })
+        </script>
+    </div>
+       
     
 
 {% endblock %}

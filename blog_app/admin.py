@@ -7,9 +7,11 @@ from django.contrib.auth.models import User
 class PostAdmin(admin.ModelAdmin):
 	list_display = ('title', 'description')
 	list_filter = ('published', 'created')
+	prepopulated_fields = {"slug": ("title",)}
 	search_fields = ('title', 'description', 'content')
 	date_hierarchy = 'created'
 	save_on_top = True
+
 	
 class detailsInline(admin.StackedInline):
 	model = details
