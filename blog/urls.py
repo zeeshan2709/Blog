@@ -16,20 +16,21 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-#from blog_app.views import search
+from blog_app import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^search/$', 'blog_app.views.search'),
-    url(r'^$', 'blog_app.views.index', name="index"),
-    url(r'^register/$', 'blog_app.views.register'),
-    url(r'^login_page/$', 'blog_app.views.login_page', name='logpage'),
-    url(r'^logins/$', 'blog_app.views.logins'),   
-    url(r'^logouts/$', 'blog_app.views.logouts', name='logouts'),
-    url(r'^myaccount/$', 'blog_app.views.my_account_page', name='acc_page'),
-    url(r'^change_info/$', 'blog_app.views.change_info'),
-    url(r'^liked/$', 'blog_app.views.liked', name='liked'),
-    url(r'^post_form/$', 'blog_app.views.post_form', name='post_form'),
-    url(r'^send_request/$', 'blog_app.views.send_request'),
-    url(r'^register_page/$', 'blog_app.views.register_page', name='regpage'),
-    url(r'^(?P<slug>[\w\-]+)/$', 'blog_app.views.post'),
+    url(r'^search/$', views.search),
+    url(r'^$', views.index, name="index"),
+    url(r'^register/$', views.register),
+    url(r'^login_page/$', views.login_page, name='logpage'),
+    url(r'^logins/$', views.logins),   
+    url(r'^logouts/$', views.logouts, name='logouts'),
+    url(r'^myaccount/$', views.my_account_page, name='acc_page'),
+    url(r'^change_info/$', views.change_info),
+    url(r'^liked/$', views.liked, name='liked'),
+    url(r'^comment/$', views.commenting, name='comment'),
+    url(r'^post_form/$', views.post_form, name='post_form'),
+    url(r'^send_request/$', views.send_request),
+    url(r'^register_page/$', views.register_page, name='regpage'),
+    url(r'^(?P<slug>[\w\-]+)/$', views.post),
 ]

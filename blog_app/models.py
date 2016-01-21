@@ -24,6 +24,18 @@ class Likes(models.Model):
 	posts = models.ForeignKey(Post)
 	usr = models.ForeignKey(User)
 
+class comments(models.Model):
+	user = models.TextField()
+	comnt = models.TextField()
+	slug = models.CharField(default="", max_length = 255)
+
+	def as_dict(self):
+		return {
+			"user": self.user,
+			"comnt": self.comnt,
+			"slug": self.slug,
+        }
+
 class details(models.Model):
 	user = models.OneToOneField(User)
 	ph_no = models.IntegerField(default=0)

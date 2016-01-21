@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from blog_app.models import Post,Likes
+from blog_app.models import Post,Likes,comments
 from blog_app.models import details
 from django.contrib.auth.models import User
 
@@ -26,3 +26,4 @@ admin.site.register(User,UserAdmin)
 #admin.site.register(Post)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Likes)
+admin.site.register(comments)

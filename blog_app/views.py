@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404, HttpResponse
-from blog_app.models import Post,Likes,details
+from blog_app.models import Post,Likes,details,comments
 from . import models
 try:
 	from django.utils import simplejason as json
@@ -8,9 +8,10 @@ except ImportError:
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
+from django.core import serializers
 
 notloggedin = 1
-cur_post=[]
+cur_post=1
 
 def index(request):
 	posts = Post.objects.filter(published=True)
@@ -131,7 +132,7 @@ def liked(request):
  			no = cur_post.no_likes - 1
  			cur_post.no_likes = no
  			cur_post.save()
- 		ctx = {"likes": no, "message":"changed"}
+ 		ctx = {"likes": no}
  		return HttpResponse(json.dumps(ctx), content_type="application/json")
  	else:
  		return login_page(request)
@@ -146,3 +147,12 @@ def send_request(request):
 	slg =  slugify(titl)
 	Post.objects.create(title=titl, content=cont, description=desc, slug=slg)
 	return index(request)
+
+def commenting(request):
+	#import pdb; pdb.set_trace()
+	coms = comments.objects.filter(slug=cur_post.slug)
+	data = [com.as_dict() for com in coms]
+	#actual_data = [d['fields'] for d in data]
+	#data = serializers.serialize("json", coms)
+	return HttpResponse(json.dumps(data), content_type="application/json")
+

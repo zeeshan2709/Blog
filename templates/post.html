@@ -3,19 +3,29 @@
      
 {% block content %}
     
-    	<br><br><br><br>
+    <br><br><br><br>
     <div class = pos_div>
             <header>
                 <h1> {{post.title}} </h1>  
             </header>
             <p style="font-size:120%;color:grey" class="description">{{post.description}}</p>{{post.content|safe}}
             <br><br><br>
-            <!-- <button onclick="change()" type="button" value="Like" id="likebutton"><a href="{% url "liked" %}">{{like}}</a></button>
-            &nbsp;&nbsp;+{{no_likes}} -->
-            <input type="button" id="liking" value={{like}} ></input><p id = "number">&nbsp;&nbsp;{{no_likes}} </p>
+            <input type="button" id="liking" value={{like}} ></input><span id = "number">&nbsp;&nbsp;{{no_likes}} </span>
              <div id="footer">Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time></div>
             <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-         <script>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    </div>
+    {% verbatim %}
+    <div ng-app="com_form" class="comment_field">
+        <div ng-controller="com_ctrl">
+                <div ng-repeat="com in myForm.comment"><b>{{com.user}}:</b>  {{com.comnt}}</div>
+            <form>
+                <b>Comment: </b> <input type="text" name="firstName" placeholder="Your Comment" ng-model="">
+            </form>
+        </div>
+    </div>
+    {% endverbatim %}
+    <script>
             $('#liking').on("click", function(){
                 $.ajax({
                     type: "POST",
@@ -37,8 +47,39 @@
                     }
                 }); 
             })
-        </script>
-    </div>
+    </script>
+    <script>
+        angular.module("com_form", []).controller("com_ctrl", function($scope) {
+            $scope.myForm = {};
+            $scope.myForm.comment=lookup();
+
+        } );
+        function lookup() {
+            var result = [];
+            var data = $.parseJSON($.ajax({
+                type: "POST",
+                url: "{% url "comment" %}",
+                data: {'user':'zee','slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: "json",async: false}).responseText);
+                // success: function(json) {
+                //     console.log(res);
+                //     for(i = 0; i < json.length; i++){
+                //         result[i] = {user:json[i].user, comnt:json[i].comnt};
+                //         //console.log(result[i]);
+                //     }
+                //     //console.log(result);
+                //     //console.log(json);
+
+                // },
+                // error: function(rs, e) {
+                //     alert(rs.responseText);
+                // }
+            //});
+            result = data;
+            console.log(result);
+            return result; 
+        }
+    </script>
        
     
 
