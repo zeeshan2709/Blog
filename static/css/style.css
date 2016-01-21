@@ -131,8 +131,38 @@ div.my_acc_form{
 .comment_field{
     border: 1px;
     background-color: #fff;
+    max-width: 720px;
+    width: 96%;
+    padding: 2%;
+    margin: auto;
+}
+.comnt_form{
+    border: 1px;
+    border-color: red;
+    background-color: #fff;
     max-width: 640px;
     width: 96%;
     padding: 2%;
     margin: auto;
+    margin-left:12px;
+    width:640px;
+    padding:0px 20px;
+    border-radius:10px;
+    background-color:#FFFFFF;
+    box-shadow:1px 1px 5px rgba(0,0,0,.2);
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
+    border-right: 12px solid #FFF;
+    left:-10px;
+    top:12px;
+}
+.comnt_form input:not([type=submit])
+{
+    padding: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    min-width:400px;
+    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
 }

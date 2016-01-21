@@ -18,8 +18,8 @@
     {% verbatim %}
     <div ng-app="com_form" class="comment_field">
         <div ng-controller="com_ctrl">
-                <div ng-repeat="comm in myForm.comment"><b>{{comm.user}}:</b>  {{comm.comnt}}</div>
-            <form>
+                <div class="comnt_form" ng-repeat="comm in myForm.comment"><b>{{comm.user}}:</b>  {{comm.comnt}}</div>
+            <form class="comnt_form">
                 <b>Comment: </b> <input type="text" id="comm" placeholder="Your Comment"></input>
                 <button ng-click="myForm.submitTheForm()">comment</button>
             </form>
