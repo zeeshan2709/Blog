@@ -18,9 +18,10 @@
     {% verbatim %}
     <div ng-app="com_form" class="comment_field">
         <div ng-controller="com_ctrl">
-                <div ng-repeat="com in myForm.comment"><b>{{com.user}}:</b>  {{com.comnt}}</div>
+                <div ng-repeat="comm in myForm.comment"><b>{{comm.user}}:</b>  {{comm.comnt}}</div>
             <form>
-                <b>Comment: </b> <input type="text" name="firstName" placeholder="Your Comment" ng-model="">
+                <b>Comment: </b> <input type="text" id="comm" placeholder="Your Comment"></input>
+                <button ng-click="myForm.submitTheForm()">comment</button>
             </form>
         </div>
     </div>
@@ -49,38 +50,53 @@
             })
     </script>
     <script>
+        // var repop = function (){
+        //     com = document.getElementById("comm").value;
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "{% url "comment" %}",
+        //         data: {'comment':com, 'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{csrf_token }}'},
+        //         dataType: "json",
+        //         success:function(){
+        //             alert("commented!!")
+        //         }
+        //     });
+        // }
         angular.module("com_form", []).controller("com_ctrl", function($scope) {
             $scope.myForm = {};
             $scope.myForm.comment=lookup();
+            $scope.myForm.submitTheForm = function (){
+                com = document.getElementById("comm").value;
+                if(com==""){
+                    alert("write something biatchh!!");
+                } else {
+                    document.getElementById("comm").value = "";
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url "comment" %}",
+                        data: {'comment':com, 'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{csrf_token }}'},
+                        dataType: "json",
+                        success:function(){
+                            alert("commented!!");
+                            $scope.myForm.comment=lookup();
+                            $scope.$digest();
+                        }
+                    });
+                }
+            };
 
         } );
         function lookup() {
             var result = [];
             var data = $.parseJSON($.ajax({
-                type: "POST",
+                type: "GET",
                 url: "{% url "comment" %}",
-                data: {'user':'zee','slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                data: {'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                 dataType: "json",async: false}).responseText);
-                // success: function(json) {
-                //     console.log(res);
-                //     for(i = 0; i < json.length; i++){
-                //         result[i] = {user:json[i].user, comnt:json[i].comnt};
-                //         //console.log(result[i]);
-                //     }
-                //     //console.log(result);
-                //     //console.log(json);
-
-                // },
-                // error: function(rs, e) {
-                //     alert(rs.responseText);
-                // }
-            //});
             result = data;
             console.log(result);
             return result; 
         }
     </script>
        
-    
-
 {% endblock %}

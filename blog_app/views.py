@@ -150,8 +150,11 @@ def send_request(request):
 
 def commenting(request):
 	#import pdb; pdb.set_trace()
+	if(request.method == 'POST'):
+		comments.objects.create(comnt=request.POST.get('comment'), slug=cur_post.slug, user=request.user)
 	coms = comments.objects.filter(slug=cur_post.slug)
 	data = [com.as_dict() for com in coms]
+	print request.POST.get('user')
 	#actual_data = [d['fields'] for d in data]
 	#data = serializers.serialize("json", coms)
 	return HttpResponse(json.dumps(data), content_type="application/json")

@@ -85,7 +85,7 @@ a:hover{
 .pos_div{
     border: 1px;
         background-color: #fff;
-        max-width: 640px;
+        max-width: 720px;
         width: 96%;
         padding: 2%;
         margin: auto;
@@ -126,4 +126,13 @@ div.my_acc_form{
 }
 .postfield *{
     vertical-align: middle;
+}
+
+.comment_field{
+    border: 1px;
+    background-color: #fff;
+    max-width: 640px;
+    width: 96%;
+    padding: 2%;
+    margin: auto;
 }
