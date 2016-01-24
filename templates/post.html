@@ -16,7 +16,7 @@
             <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
     </div>
     {% verbatim %}
-    <div ng-app="com_form" class="comment_field">
+    <div ng-app="com_form" class="comment_field"><span> <h1><b>Leave Comments</b></h1>
         <div ng-controller="com_ctrl">
                 <div class="comnt_form" ng-repeat="comm in myForm.comment"><b>{{comm.user}}:</b>  {{comm.comnt}}</div>
             <form class="comnt_form">
@@ -27,41 +27,28 @@
     </div>
     {% endverbatim %}
     <script>
-            $('#liking').on("click", function(){
-                $.ajax({
-                    type: "POST",
-                    url: "{% url "liked" %}",
-                    data: {'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                    dataType: "json",
-                    success: function(response) {
-                        k = document.getElementById("liking")
-                        if(k.value == "Like") {
-                            k.value = "Unlike";
-                        }
-                        else {
-                            k.value = "Like" ;
-                        }
-                        document.getElementById("number").innerHTML = response.likes;
-                    },
-                    error: function(rs, e) {
-                        alert(rs.responseText);
-                    }
-                }); 
-            })
+        $('#liking').on("click", function(){
+    $.ajax({
+        type: "POST",
+        url: "{% url "liked" %}",
+        data: {'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        dataType: "json",
+        success: function(response) {
+            k = document.getElementById("liking")
+            if(k.value == "Like") {
+                k.value = "Unlike";
+            } else {
+                k.value = "Like" ;
+            }
+            document.getElementById("number").innerHTML = response.likes;
+        },
+        error: function(rs, e) {
+            alert(rs.responseText);
+        }
+    }); 
+})
     </script>
     <script>
-        // var repop = function (){
-        //     com = document.getElementById("comm").value;
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "{% url "comment" %}",
-        //         data: {'comment':com, 'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{csrf_token }}'},
-        //         dataType: "json",
-        //         success:function(){
-        //             alert("commented!!")
-        //         }
-        //     });
-        // }
         angular.module("com_form", []).controller("com_ctrl", function($scope) {
             $scope.myForm = {};
             $scope.myForm.comment=lookup();
