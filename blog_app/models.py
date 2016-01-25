@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Post(models.Model):
 	title = models.CharField(max_length=255)
@@ -28,17 +29,19 @@ class comments(models.Model):
 	user = models.TextField()
 	comnt = models.TextField()
 	slug = models.CharField(default="", max_length = 255)
+	tym = models.DateTimeField(default=datetime.now())
 
 	def as_dict(self):
 		return {
 			"user": self.user,
 			"comnt": self.comnt,
 			"slug": self.slug,
+			"tym": self.tym.strftime('%B %d, %Y %I:%M %p')
         }
 
 class details(models.Model):
 	user = models.OneToOneField(User)
-	ph_no = models.IntegerField(default=0)
+	ph_no = models.IntegerField(default=9191)
 
 class Meta:
     ordering = ['-created']

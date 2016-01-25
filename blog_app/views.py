@@ -10,26 +10,25 @@ from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
 from django.core import serializers
 
-notloggedin = 1
 cur_post=1
+
+def testlogin(request):
+	if request.user.is_authenticated():
+		return 0
+	else:
+		return 1
 
 def index(request):
 	posts = Post.objects.filter(published=True)
 	print request.user
 	global notloggedin
-	if request.user.is_authenticated():
-		notloggedin = 0
-	else:
-		notloggedin = 1
+	notloggedin = testlogin(request)
 	return render(request, 'index.html', {'posts': posts, 'notloggedin':notloggedin, 'username': request.user})
 
 def post(request, slug):
 	#print slug
 	post = get_object_or_404(Post, slug=slug)
-	if request.user.is_authenticated():
-		notloggedin = 0
-	else:
-		notloggedin = 1
+	notloggedin = testlogin(request)
 	if notloggedin == 0:
 		lk = Likes.objects.filter(posts=post, usr=request.user)
 		if not lk:
@@ -43,11 +42,7 @@ def post(request, slug):
 	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin, 'like':state, 'no_likes':post.no_likes})
 
 def search(request):
-
-	if request.user.is_authenticated():
-		notloggedin = 0
-	else:
-		notloggedin = 1
+	notloggedin = testlogin(request)
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
 		posts = Post.objects.filter(title__icontains=q)
@@ -58,6 +53,7 @@ def register_page(request):
 	return render(request, 'register.html' , {'notloggedin':notloggedin})
 
 def register(request):
+	notloggedin = testlogin(request)
 	usr = request.GET.get('user')
 	pss = request.GET.get('pass')
 	eml = request.GET.get('email')
@@ -83,6 +79,7 @@ def logins(request):
 			print("password valid but account inactive")
 	else:
 		print("username and password incorrect")
+		
 def logouts(request):
 	logout(request)
 	global notloggedin
@@ -90,10 +87,6 @@ def logouts(request):
 	return index(request)
 
 def my_account_page(request):
-	if request.user.is_authenticated():
-		notloggedin = 0
-	else:
-		notloggedin = 1
 	uname = request.user.username
 	fname = request.user.first_name
 	lname = request.user.last_name
@@ -154,7 +147,6 @@ def commenting(request):
 		comments.objects.create(comnt=request.POST.get('comment'), slug=cur_post.slug, user=request.user)
 	coms = comments.objects.filter(slug=cur_post.slug)
 	data = [com.as_dict() for com in coms]
-	print request.POST.get('user')
 	#actual_data = [d['fields'] for d in data]
 	#data = serializers.serialize("json", coms)
 	return HttpResponse(json.dumps(data), content_type="application/json")

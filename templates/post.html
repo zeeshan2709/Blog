@@ -18,7 +18,9 @@
     {% verbatim %}
     <div ng-app="com_form" class="comment_field"><span> <h1><b>Leave Comments</b></h1>
         <div ng-controller="com_ctrl">
-                <div class="comnt_form" ng-repeat="comm in myForm.comment"><b>{{comm.user}}:</b>  {{comm.comnt}}</div>
+                <div class="comnt_form" ng-repeat="comm in myForm.comment"><b>{{comm.user}}:</b>  {{comm.comnt}} 
+                    <span style="font-size:80%;color:grey;float:right;">~{{comm.tym}}<span>
+                </div>
             <form class="comnt_form">
                 <b>Comment: </b> <input type="text" id="comm" placeholder="Your Comment"></input>
                 <button ng-click="myForm.submitTheForm()">comment</button>
@@ -26,8 +28,8 @@
         </div>
     </div>
     {% endverbatim %}
-    <script>
-        $('#liking').on("click", function(){
+<script>
+$('#liking').on("click", function(){
     $.ajax({
         type: "POST",
         url: "{% url "liked" %}",
@@ -47,7 +49,7 @@
         }
     }); 
 })
-    </script>
+</script>
     <script>
         angular.module("com_form", []).controller("com_ctrl", function($scope) {
             $scope.myForm = {};
