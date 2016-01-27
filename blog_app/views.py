@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
 from django.core import serializers
 
-cur_post=1
+cur_post=[]
 
 def testlogin(request):
 	if request.user.is_authenticated():
