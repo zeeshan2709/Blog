@@ -21,6 +21,15 @@ class Post(models.Model):
 		print self.slug
 		return reverse('blog_app.views.post', kwargs={'slug':self.slug,})
 
+	def as_dict(self):
+		return {
+			"title": self.title,
+			"descrip": self.description,
+			"created": self.created.strftime('%B %d, %Y %I:%M %p'),
+			"likes":self.no_likes,
+			"url":self.get_absolute_url()
+        }
+
 class Likes(models.Model):
 	posts = models.ForeignKey(Post)
 	usr = models.ForeignKey(User)

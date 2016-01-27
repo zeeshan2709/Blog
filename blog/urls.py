@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^change_info/$', views.change_info),
     url(r'^liked/$', views.liked, name='liked'),
     url(r'^comment/$', views.commenting, name='comment'),
+    url(r'^sort_op/$', views.sort_opt, name='sort'),
     url(r'^post_form/$', views.post_form, name='post_form'),
     url(r'^send_request/$', views.send_request),
     url(r'^register_page/$', views.register_page, name='regpage'),

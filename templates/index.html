@@ -4,15 +4,39 @@
 {% block content %}
 <br> <br> <br> <br>
     <h1 style="color:Black; font-family:verdana;"> <center>Zeeshan's Blog Archive</center></h1>
-    {% for post in posts %}
-        <div class="post">
+    {% verbatim %}
+    <div ng-app="app" ng-controller="Test">
+    <center>Sort By:
+            <select ng-model="selectedItem">
+                <option value="title">Title</option>
+                <option value="likes">Likes</option>
+            </select>
+    </center>
+
+        <div class="post" ng-repeat="item in items|orderBy:selectedItem">
             <h2 style="font-size:160%">
-                <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+                <a href={{item.url}}>{{item.title}}</a>
             </h2>
-            <p  style="font-size:120%;color:grey">{{post.description}}</p>
+            <p  style="font-size:120%;color:grey">{{item.descrip}}</p>
+            <p>Likes:{{item.likes}}<p>
+            <div id="footer">
+            Posted on {{item.created}}
         </div>
-        <div id="footer">
-            Posted on <time datetime="{{post.created|date:"c"}}">{{post.created|date}}</time>
         </div>
-    {% endfor %} 
+    </div>
+    {% endverbatim %}
+
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+
+<script>
+    var app = angular.module('app',[]);
+    app.controller('Test',function($scope){
+    $scope.items = $.parseJSON($.ajax({
+                type: "POST",
+                url: "{% url "sort" %}",
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: "json",async: false}).responseText);
+    });
+</script>
 {% endblock %}

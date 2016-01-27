@@ -23,6 +23,11 @@ def index(request):
 	notloggedin = testlogin(request)
 	return render(request, 'index.html', {'posts': posts, 'notloggedin':notloggedin, 'username': request.user})
 
+def sort_opt(request):
+	posts = Post.objects.all()
+	data = [post.as_dict() for post in posts]
+	return HttpResponse(json.dumps(data), content_type="application/json")
+
 def post(request, slug):
 	#print slug
 	post = get_object_or_404(Post, slug=slug)
