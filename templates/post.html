@@ -30,10 +30,15 @@
     {% endverbatim %}
 <script>
 $('#liking').on("click", function(){
+    var filename =  location.pathname.substring(1);
+    if(filename.substr(-1) === '/') {
+        filename = filename.substr(0, filename.length - 1);
+    }
+    console.log(filename);
     $.ajax({
         type: "POST",
         url: "{% url "liked" %}",
-        data: {'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        data: {'slug': filename, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
         dataType: "json",
         success: function(response) {
             k = document.getElementById("liking")
@@ -55,15 +60,20 @@ $('#liking').on("click", function(){
             $scope.myForm = {};
             $scope.myForm.comment=lookup();
             $scope.myForm.submitTheForm = function (){
+                var filename =  location.pathname.substring(1);
+                    if(filename.substr(-1) === '/') {
+                    filename = filename.substr(0, filename.length - 1);
+                }
                 com = document.getElementById("comm").value;
                 if(com==""){
                     alert("write something biatchh!!");
                 } else {
+                    alert("in else");
                     document.getElementById("comm").value = "";
                     $.ajax({
                         type: "POST",
                         url: "{% url "comment" %}",
-                        data: {'comment':com, 'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{csrf_token }}'},
+                        data: {'comment':com, 'slug': filename, 'csrfmiddlewaretoken': '{{csrf_token }}'},
                         dataType: "json",
                         success:function(){
                             alert("commented!!");
@@ -76,11 +86,15 @@ $('#liking').on("click", function(){
 
         } );
         function lookup() {
+            var filename =  location.pathname.substring(1);
+                if(filename.substr(-1) === '/') {
+                filename = filename.substr(0, filename.length - 1);
+            }
             var result = [];
             var data = $.parseJSON($.ajax({
                 type: "GET",
                 url: "{% url "comment" %}",
-                data: {'slug': $(this).attr('slug'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                data: {'slug': filename, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                 dataType: "json",async: false}).responseText);
             result = data;
             console.log(result);

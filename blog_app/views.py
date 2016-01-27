@@ -10,8 +10,6 @@ from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
 from django.core import serializers
 
-cur_post=[]
-
 def testlogin(request):
 	if request.user.is_authenticated():
 		return 0
@@ -37,8 +35,6 @@ def post(request, slug):
 			state = 'Unlike'
 	else:
 		state = 'Like'
-	global cur_post
-	cur_post=post
 	return render(request, 'post.html', {'post':post, 'username': request.user, 'notloggedin':notloggedin, 'like':state, 'no_likes':post.no_likes})
 
 def search(request):
@@ -62,17 +58,16 @@ def register(request):
 		User.objects.create_user(usr, eml, pss)
 		return render(request, 'login_page.html')
 def login_page(request):
+	notloggedin = testlogin(request)
 	return render(request, 'login_page.html', {'notloggedin':notloggedin})
 
 def logins(request):
 	usr = request.GET.get('user')
 	pss = request.GET.get('pass')
 	print usr, pss
-	global notloggedin
 	user = authenticate(username=usr,password=pss)
 	if user is not None:
 		if user.is_active:
-			notloggedin = 0
 			login(request, user)
 			return index(request)
 		else:
@@ -82,8 +77,6 @@ def logins(request):
 		
 def logouts(request):
 	logout(request)
-	global notloggedin
-	notloggedin = 1
 	return index(request)
 
 def my_account_page(request):
@@ -113,6 +106,7 @@ def change_info(request):
 
 def liked(request):
 	print "inlikes"
+	cur_post = get_object_or_404(Post, slug=request.POST.get('slug'))
 	if request.user.is_authenticated():
  		lk = Likes.objects.filter(posts=cur_post, usr=request.user)
  		#post1 = Post.objects.get(slug=cur_post.slug)
@@ -146,7 +140,10 @@ def send_request(request):
 
 def commenting(request):
 	#import pdb; pdb.set_trace()
+	if(request.method == 'GET'):
+		cur_post = get_object_or_404(Post, slug=request.GET.get('slug'))
 	if(request.method == 'POST'):
+		cur_post = get_object_or_404(Post, slug=request.POST.get('slug'))
 		comments.objects.create(comnt=request.POST.get('comment'), slug=cur_post.slug, user=request.user)
 	coms = comments.objects.filter(slug=cur_post.slug)
 	data = [com.as_dict() for com in coms]
