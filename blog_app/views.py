@@ -45,7 +45,9 @@ def search(request):
 		return render(request, 'search_results.html', {'posts': posts, 'query':q, 'username': request.user, 'notloggedin':notloggedin})
 	else:
 		return HttpResponse('Please submit a search term.')
+
 def register_page(request):
+	notloggedin = testlogin(request)
 	return render(request, 'register.html' , {'notloggedin':notloggedin})
 
 def register(request):
@@ -56,7 +58,8 @@ def register(request):
 	posts = Post.objects.all()
 	if(usr and pss and eml):
 		User.objects.create_user(usr, eml, pss)
-		return render(request, 'login_page.html')
+		return login_page(request)
+
 def login_page(request):
 	notloggedin = testlogin(request)
 	return render(request, 'login_page.html', {'notloggedin':notloggedin})
@@ -80,6 +83,7 @@ def logouts(request):
 	return index(request)
 
 def my_account_page(request):
+	notloggedin = testlogin(request)
 	uname = request.user.username
 	fname = request.user.first_name
 	lname = request.user.last_name
@@ -111,12 +115,10 @@ def liked(request):
  		lk = Likes.objects.filter(posts=cur_post, usr=request.user)
  		#post1 = Post.objects.get(slug=cur_post.slug)
  		if not lk:
- 			print "not liked"
  			Likes.objects.create(posts=cur_post, usr=request.user)
  			no = cur_post.no_likes + 1;
  			cur_post.no_likes = no
  			cur_post.save()
- 			print "saved liked"
  		else:
  			lk.delete()
  			no = cur_post.no_likes - 1
@@ -128,6 +130,7 @@ def liked(request):
  		return login_page(request)
 
 def post_form(request):
+	notloggedin = testlogin(request)
 	return render(request, 'post_form.html', {'username': request.user, 'notloggedin':notloggedin})
 
 def send_request(request):
