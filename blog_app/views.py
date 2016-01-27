@@ -91,7 +91,10 @@ def my_account_page(request):
 	fname = request.user.first_name
 	lname = request.user.last_name
 	email = request.user.email
-	phno =  request.user.details.ph_no
+	try:
+		phno = request.user.details.ph_no
+	except AttributeError:
+		phno = 0
 	return render(request, 'my_account.html', {'ph_no':phno, 'notloggedin':notloggedin, 'lname':lname,'email':email, 'fname':fname, 'uname':uname, 'notloggedin':notloggedin, 'username': request.user })
 
 def change_info(request):
