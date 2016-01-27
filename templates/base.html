@@ -5,7 +5,6 @@
         <ul class="navigation">
             <li><a class="active" href="{% url "index" %}">Home</a></li>
             <li><a class="active" href="contact.asp">Contact</a></li>
-            <li style = "float:right;"><a class="active" href="about.asp">About</a></li>
             <li style = "floar:right;color:white;margin-left:20px;margin-top:15px;">Welcome {{username}}</li>
             {%if notloggedin %}
                 <li style = "float:right;"><a class="active" href="{% url "logpage" %}">Login</a></li>
