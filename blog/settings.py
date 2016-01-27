@@ -124,6 +124,7 @@ USE_TZ = True
 #AUTH_USER_MODEL = 'authentication.Account'
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 
 import dj_database_url

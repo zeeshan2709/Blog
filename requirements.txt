@@ -26,5 +26,6 @@ six==1.10.0
 stevedore==1.10.0
 traitlets==4.0.0
 Twisted==13.2.0
+whitenoise==2.0.6
 zope.interface==4.1.1
 psycopg2==2.5.4
