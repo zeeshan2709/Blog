@@ -13,16 +13,17 @@
             </select>
     </center>
 
-        <div class="post" ng-repeat="item in items|orderBy:selectedItem">
+        <div class="post" ng-repeat="item in items|orderBy:selectedItem:sortDir()">
             <h2 style="font-size:160%">
                 <a href={{item.url}}>{{item.title}}</a>
             </h2>
             <p  style="font-size:120%;color:grey">{{item.descrip}}</p>
-            <p>Likes:{{item.likes}}<p>
+            <p>Likes: &nbsp;{{item.likes}}<p>
             <div id="footer">
-            Posted on {{item.created}}
+                Posted on {{item.created}}
+            </div>
         </div>
-        </div>
+        {{selectedItem}}
     </div>
     {% endverbatim %}
 
@@ -32,11 +33,13 @@
 <script>
     var app = angular.module('app',[]);
     app.controller('Test',function($scope){
-    $scope.items = $.parseJSON($.ajax({
-                type: "POST",
-                url: "{% url "sort" %}",
-                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                dataType: "json",async: false}).responseText);
+        $scope.selectedItem='';
+        $scope.items = $.parseJSON($.ajax({
+                        type: "POST",
+                        url: "{% url "sort" %}",
+                        data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                        dataType: "json",async: false}).responseText);
+        $scope.sortDir = function(){if($scope.selectedItem==="likes") return true; return false;};
     });
 </script>
 {% endblock %}
